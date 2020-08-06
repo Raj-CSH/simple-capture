@@ -15,7 +15,7 @@ from simple_capture.config import cli
 def main():
     try:
         cli.command_line_interface() # pylint:disable=no-value-for-parameter
-    except: # pylint:disable=bare-except
+    except Exception: # pylint:disable=broad-except
         click.secho('A fatal exception occured!', fg='red', bold=True)
         logging.info(traceback.format_exc())
 
