@@ -1,3 +1,3 @@
 import setuptools
 
-setuptools.setup()
+setuptools.setup(url='https://github.com/Raj-CSH/simple-capture')
