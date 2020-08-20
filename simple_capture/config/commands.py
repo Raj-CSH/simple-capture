@@ -225,7 +225,7 @@ class Command(utils.RegistryEnabledObject, metaclass=abc.ABCMeta, spec=utils.FfS
 
     Attributes:
         help (str): Help message for command.
-        parameters (list(Parameter)): List of :class:`simple_capture.config.commands.Parameter`s
+        parameters (list(Parameter)): List of :class:`simple_capture.config.commands.Parameter`
             detailing parameters of __call__ method.
     """
     _command_registry = {}
@@ -233,7 +233,7 @@ class Command(utils.RegistryEnabledObject, metaclass=abc.ABCMeta, spec=utils.FfS
     @property
     @abc.abstractmethod
     def parameters(self):
-        """list(Parameter): List of :class:`simple_capture.config.commands.Parameter`s detailing
+        """list(Parameter): List of :class:`simple_capture.config.commands.Parameter` detailing
         parameters of __call__ method.
         """
 

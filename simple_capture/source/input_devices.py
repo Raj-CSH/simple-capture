@@ -911,7 +911,7 @@ def generate_input_device(name, **kwargs):
             :meth:`simple_capture.source.input_device.AudioInputDevice.retrieve_registry`, or the
             :meth:`simple_capture.source.input_device.VideoInputDevice.retrieve_registry`.
         **kwargs: Arguments to provide to the constructor of
-            :class:`simple_capture.input_device.InputDevice` or any of its subclasses.
+            :class:`simple_capture.source.input_device.InputDevice` or any of its subclasses.
 
     Returns:
         ffmpeg.nodes.FilterableStream: Input device stream.

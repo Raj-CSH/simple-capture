@@ -31,25 +31,27 @@ def global_options_parameters():
 
 class GlobalOptions:
     _flag = utils.FfSpec.GLOBAL
-    """
+    """Global options class, used to add global configuration options for FFmpeg that cannot be
+    specified by inputs and outputs.
 
     Args:
-        filter_thread_count (int): Maps to '-filter_threads' option for ffmpeg.
-        display_stats (bool): Maps to '-stats' and '-nostats' options for ffmpeg.
-        send_progress (bool): Maps to '-progress' option for ffmpeg.
-        show_timestamps (bool): Maps to '-debug_ts' option for ffmpeg.
-        show_qp_histogram (bool): Maps to '-qphist' option for ffmpeg.
-        show_benchmark (bool): Maps to '-benchmark' option for ffmpeg.
-        show_benchmark_verbose (bool): Maps to '-benchmark_all' option for ffmpeg.
-        exit_time_limit (int): Maps to '-timelimit' option for ffmpeg.
-        dump_input_stderr (bool): Maps to '-dump' option for ffmpeg.
-        dump_payload_stderr (bool): Maps to '-hex' option for ffmpeg.
-        filter_complex_thread_count (int): Maps to '-filter_complex_threads' option for ffmpeg.
-        dump_sdp_file (str): Maps to '-sdp_file' option for ffmpeg.
-        abort_on_flags (str): Maps to '-abort_on' option for ffmpeg.
-        exit_on_error (bool): Maps to '-xerror' option for ffmpeg.
-        overwrite_output (bool): Maps to '-y' and '-n' options for ffmpeg.
-        sudo (bool): Add 'sudo' to the beginning of the ffmpeg command.
+        filter_thread_count (:obj:`int`, optional): Maps to '-filter_threads' option for ffmpeg.
+        display_stats (:obj:`bool`, optional): Maps to '-stats' and '-nostats' options for ffmpeg.
+        send_progress (:obj:`bool`, optional): Maps to '-progress' option for ffmpeg.
+        show_timestamps (:obj:`bool`, optional): Maps to '-debug_ts' option for ffmpeg.
+        show_qp_histogram (:obj:`bool`, optional): Maps to '-qphist' option for ffmpeg.
+        show_benchmark (:obj:`bool`, optional): Maps to '-benchmark' option for ffmpeg.
+        show_benchmark_verbose (:obj:`bool`, optional): Maps to '-benchmark_all' option for ffmpeg.
+        exit_time_limit (:obj:`int`, optional): Maps to '-timelimit' option for ffmpeg.
+        dump_input_stderr (:obj:`bool`, optional): Maps to '-dump' option for ffmpeg.
+        dump_payload_stderr (:obj:`bool`, optional): Maps to '-hex' option for ffmpeg.
+        filter_complex_thread_count (:obj:`int`, optional): Maps to '-filter_complex_threads'
+            option for ffmpeg.
+        dump_sdp_file (:obj:`str`, optional): Maps to '-sdp_file' option for ffmpeg.
+        abort_on_flags (:obj:`str`, optional): Maps to '-abort_on' option for ffmpeg.
+        exit_on_error (:obj:`bool`, optional): Maps to '-xerror' option for ffmpeg.
+        overwrite_output (:obj:`bool`, optional): Maps to '-y' and '-n' options for ffmpeg.
+        sudo (:obj:`bool`, optional): Add 'sudo' to the beginning of the ffmpeg command.
     """
     def __init__(self, filter_thread_count=None, show_stats=True, send_progress=False,
                  show_timestamps=False, show_qp_histogram=False, show_benchmark=False,

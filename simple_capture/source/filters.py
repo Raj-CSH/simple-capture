@@ -226,7 +226,7 @@ def generate_filter(name, input_layers, **kwargs):
         input_layers (dict(int, ffmpeg.nodes.FilterableStream)): Mapping between input layer
             numbers and the input layers associated with them.
         **kwargs: Arguments to provide to the constructor of
-            :class:`simple_capture.filters.Filter` or any of its subclasses.
+            :class:`simple_capture.source.filters.Filter` or any of its subclasses.
 
     Returns:
         ffmpeg.nodes.FilterableStream: Stream with filter applied.

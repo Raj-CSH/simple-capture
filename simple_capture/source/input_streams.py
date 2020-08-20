@@ -27,25 +27,25 @@ def input_stream_parameters():
             'thread_queue_size' : int}
 
 class InputStream(streams.Stream, stream_name='other-stream', spec=utils.FfSpec.INPUT):
-    """[summary]
+    """Input stream class, used to add input media in forms other than live device capture.
 
     Args:
         filename (str): Maps to '-i' option for ffmpeg.
-        fmt (str): Maps to '-f' option for ffmpeg.
-        loop_count (int): [description]. Maps to '-stream_loop' option for ffmpeg.
-        video_codec (str): Maps to '-vcodec/-c:v' option for ffmpeg.
-        audio_codec (str): Maps to '-acodec/-c:a' option for ffmpeg.
-        duration (str): Maps to '-t' option for ffmpeg.
-        end_position (str): Maps to '-to' option for ffmpeg.
-        seek_position (str): Maps to '-ss' option for ffmpeg.
-        eof_seek_position (str): Maps to '-sseof' option for ffmpeg.
-        timestamp_offset (str): Maps to '-itoffset' option for ffmpeg.
-        timestamp_scale (float): Maps to '-itscale' option for ffmpeg.
-        framerate (float): Maps to '-framerate' option for ffmpeg.
-        pixel_format (str): Maps to '-pix_fmt' option for ffmpeg.
-        sample_rate (int): Maps to '-ar' option for ffmpeg.
-        channels (int): Maps to '-ac' option for ffmpeg.
-        thread_queue_size (int): Maps to '-thread_queue_size' option for ffmpeg.
+        fmt (:obj:`str`, optional): Maps to '-f' option for ffmpeg.
+        loop_count (:obj:`int`, optional): Maps to '-stream_loop' option for ffmpeg.
+        video_codec (:obj:`str`, optional): Maps to '-vcodec/-c:v' option for ffmpeg.
+        audio_codec (:obj:`str`, optional): Maps to '-acodec/-c:a' option for ffmpeg.
+        duration (:obj:`str`, optional): Maps to '-t' option for ffmpeg.
+        end_position (:obj:`str`, optional): Maps to '-to' option for ffmpeg.
+        seek_position (:obj:`str`, optional): Maps to '-ss' option for ffmpeg.
+        eof_seek_position (:obj:`str`, optional): Maps to '-sseof' option for ffmpeg.
+        timestamp_offset (:obj:`str`, optional): Maps to '-itoffset' option for ffmpeg.
+        timestamp_scale (:obj:`float`, optional): Maps to '-itscale' option for ffmpeg.
+        framerate (:obj:`float`, optional): Maps to '-framerate' option for ffmpeg.
+        pixel_format (:obj:`str`, optional): Maps to '-pix_fmt' option for ffmpeg.
+        sample_rate (:obj:`int`, optional): Maps to '-ar' option for ffmpeg.
+        channels (:obj:`int`, optional): Maps to '-ac' option for ffmpeg.
+        thread_queue_size (:obj:`int`, optional): Maps to '-thread_queue_size' option for ffmpeg.
     """
     _input_stream_registry = {}
 
@@ -94,6 +94,11 @@ class InputStream(streams.Stream, stream_name='other-stream', spec=utils.FfSpec.
         self._mutually_exclusive.append(args)
 
     def _process_mutually_exclusive(self, filtered_options):
+        """Removes arguments that are meant to be mutually exclusive with each other.
+
+        Args:
+            filtered_options (dict(str, Any)): Preprocessed options.
+        """
         for mutually_exclusive in self._mutually_exclusive:
             found = [arg for arg in mutually_exclusive if arg in filtered_options]
             if len(found) <= 1:
@@ -105,13 +110,24 @@ class InputStream(streams.Stream, stream_name='other-stream', spec=utils.FfSpec.
 
     @classmethod
     def help(cls):
-        return """"""
+        return """Generic input stream type. Used to add other input media, such as logos.
+               Official documentation: 'https://ffmpeg.org/ffmpeg.html#Main-options'.
+               """
 
     @classmethod
     def retrieve_registry(cls):
         return cls._input_stream_registry
 
 def input_stream(cls):
+    """Decorator to register an input stream. The key is
+    :attr:`simple_capture.source.streams.Stream.stream_name` attribute of the class.
+
+    Args:
+        cls (type): Class to register.
+
+    Returns:
+        type: Registered class.
+    """
     return streams.stream(InputStream)(cls)
 
 register_input_stream = functools.partial(streams.register_stream, InputStream)
@@ -120,6 +136,19 @@ input_stream(InputStream)
 
 
 def generate_input_stream(name, filename, **kwargs):
+    """Creates the FFmpeg input stream node.
+
+    Args:
+        name (str): Name of the input stream, in the
+            :meth:`simple_capture.source.input_streams.InputStream.retrieve_registry`.
+        filename (str): Input filename.
+        **kwargs: Arguments to provide to the constructor of
+            :class:`simple_capture.source.input_streams.InputStream` or any of its subclasses.
+
+    Returns:
+        ffmpeg.nodes.FilterableStream: Input stream.
+    """
+
     stream = InputStream.retrieve_registry().get(name)
     if stream is None:
         logging.error((f'Unable to find stream {name}! No stream instantiated with keyword '

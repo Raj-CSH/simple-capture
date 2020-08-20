@@ -488,7 +488,7 @@ def generate_ffmpeg_node_structure(parser):
 
     if len(output_nodes) == 0:
        logging.error('Unable to generate ffmpeg node structure! No outputs!')
-       return
+       return None, False
 
     node_structure = ffmpeg.merge_outputs(*output_nodes)
     if global_option is not None:

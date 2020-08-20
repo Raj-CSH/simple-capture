@@ -28,31 +28,31 @@ def output_stream_parameters():
             'maximum_rate' : str, 'buffer_size' : str}
 
 class OutputStream(streams.Stream, stream_name='other-stream', spec=utils.FfSpec.OUTPUT):
-    """[summary]
+    """Output stream class, used to add output targets in forms other than live device casting.
 
     Args:
         filename (str): Maps to '-i' option for ffmpeg.
-        fmt (str): Maps to '-f' option for ffmpeg.
-        video_codec (str): Maps to '-vcodec/-c:v' option for ffmpeg.
-        audio_codec (str): Maps to '-acodec/-c:a' option for ffmpeg.
-        file_size (int): Maps to '-fs' option for ffmpeg.
-        duration (str): Maps to '-t' option for ffmpeg.
-        end_position (str): Maps to '-to' option for ffmpeg.
-        seek_position (str): Maps to '-ss' option for ffmpeg.
-        timestamp (str): Maps to '-timestamp' option for ffmpeg.
-        target (str): Maps to '-target' option for ffmpeg.
-        preset (str): Maps to '-pre' option for ffmpeg.
-        framerate (float): Maps to '-framerate' option for ffmpeg.
-        video_size (str): Maps to '-s' option for ffmpeg.
-        aspect_ratio (str): Maps to '-aspect' for ffmpeg.
-        pixel_format (str): Maps to '-pix_fmt' option for ffmpeg.
-        sample_rate (int): Maps to '-ar' option for ffmpeg.
-        channels (int): Maps to '-ac' option for ffmpeg.
-        sample_format (str): Maps to '-sample_fmt' option for ffmpeg.
-        fourcc (str): Maps to '-atag' option for ffmpeg.
-        minimum_rate (str): Maps to '-minrate' option for ffmpeg.
-        maximum_rate (str): Maps to '-maxrate' option for ffmpeg.
-        buffer_size (str): Maps to '-bufsize' option for ffmpeg.
+        fmt (:obj:`str`, optional): Maps to '-f' option for ffmpeg.
+        video_codec (:obj:`str`, optional): Maps to '-vcodec/-c:v' option for ffmpeg.
+        audio_codec (:obj:`str`, optional): Maps to '-acodec/-c:a' option for ffmpeg.
+        file_size (:obj:`int`, optional): Maps to '-fs' option for ffmpeg.
+        duration (:obj:`str`, optional): Maps to '-t' option for ffmpeg.
+        end_position (:obj:`str`, optional): Maps to '-to' option for ffmpeg.
+        seek_position (:obj:`str`, optional): Maps to '-ss' option for ffmpeg.
+        timestamp (:obj:`str`, optional): Maps to '-timestamp' option for ffmpeg.
+        target (:obj:`str`, optional): Maps to '-target' option for ffmpeg.
+        preset (:obj:`str`, optional): Maps to '-pre' option for ffmpeg.
+        framerate (:obj:`float`, optional): Maps to '-framerate' option for ffmpeg.
+        video_size (:obj:`str`, optional): Maps to '-s' option for ffmpeg.
+        aspect_ratio (:obj:`str`, optional): Maps to '-aspect' for ffmpeg.
+        pixel_format (:obj:`str`, optional): Maps to '-pix_fmt' option for ffmpeg.
+        sample_rate (:obj:`int`, optional): Maps to '-ar' option for ffmpeg.
+        channels (:obj:`int`, optional): Maps to '-ac' option for ffmpeg.
+        sample_format (:obj:`str`, optional): Maps to '-sample_fmt' option for ffmpeg.
+        fourcc (:obj:`str`, optional): Maps to '-atag' option for ffmpeg.
+        minimum_rate (:obj:`str`, optional): Maps to '-minrate' option for ffmpeg.
+        maximum_rate (:obj:`str`, optional): Maps to '-maxrate' option for ffmpeg.
+        buffer_size (:obj:`str`, optional): Maps to '-bufsize' option for ffmpeg.
     """
     _output_stream_registry = {}
 
@@ -104,6 +104,11 @@ class OutputStream(streams.Stream, stream_name='other-stream', spec=utils.FfSpec
         self._mutually_exclusive.append(args)
 
     def _process_mutually_exclusive(self, filtered_options):
+        """Removes arguments that are meant to be mutually exclusive with each other.
+
+        Args:
+            filtered_options (dict(str, Any)): Preprocessed options.
+        """
         for mutually_exclusive in self._mutually_exclusive:
             found = [arg for arg in mutually_exclusive if arg in filtered_options]
             if len(found) <= 1:
@@ -119,9 +124,20 @@ class OutputStream(streams.Stream, stream_name='other-stream', spec=utils.FfSpec
 
     @classmethod
     def help(cls):
-        return """"""
+        return """Generic output stream type. Used to add other output targets, such as saving to a
+               file. Official documentation: 'https://ffmpeg.org/ffmpeg.html#Main-options'.
+               """
 
 def output_stream(cls):
+    """Decorator to register an output stream. The key is
+    :attr:`simple_capture.source.streams.Stream.stream_name` attribute of the class.
+
+    Args:
+        cls (type): Class to register.
+
+    Returns:
+        type: Registered class.
+    """
     return streams.stream(OutputStream)(cls)
 
 register_output_stream = functools.partial(streams.register_stream, OutputStream)
@@ -130,6 +146,19 @@ output_stream(OutputStream)
 
 
 def generate_output_stream(name, *args, **kwargs):
+    """Creates the FFmpeg output stream node.
+
+    Args:
+        name (str): Name of the output stream, in the
+            :meth:`simple_capture.source.output_streams.OutputStream.retrieve_registry`.
+        *args: Input streams.
+        **kwargs: Arguments to provide to the constructor of
+            :class:`simple_capture.source.output_streams.OutputStream` or any of its subclasses.
+
+    Returns:
+        ffmpeg.nodes.OutputStream: Output stream.
+    """
+
     stream = OutputStream.retrieve_registry().get(name)
     if stream is None:
         logging.error((f'Unable to find stream {name}! No stream instantiated with keyword '

@@ -196,8 +196,8 @@ class OpenGl(VideoOutputDevice, device_name='opengl'):
     information.
 
     Args:
-        display (str): Specify a semicolon separated list of keyword arguments in the form
-            'KWD=VAL;KWD2=VAL2...'.
+        display (:obj:`str`, optional): Specify a semicolon separated list of keyword arguments in
+            the form 'KWD=VAL;KWD2=VAL2...'.
     """
     def __init__(self, display='window_title=Window'):
         self._ffmpeg_arguments = filters.process_argument_string(display)
@@ -334,8 +334,8 @@ class Sdl(VideoOutputDevice, device_name='sdl'):
     information.
 
     Args:
-        display (str): Specify a semicolon separated list of keyword arguments in the form
-            'KWD=VAL;KWD2=VAL2...'.
+        display (:obj:`str`, optional): Specify a semicolon separated list of keyword arguments in
+            the form 'KWD=VAL;KWD2=VAL2...'.
     """
     def __init__(self, display='window_title=Window'):
         self._ffmpeg_arguments = filters.process_argument_string(display)
@@ -431,7 +431,7 @@ def generate_output_device(name, *args, **kwargs):
             :meth:`simple_capture.source.output_device.VideoOutputDevice.retrieve_registry`.
         *args: Input streams.
         **kwargs: Arguments to provide to the constructor of
-            :class:`simple_capture.output_device.OutputDevice` or any of its subclasses.
+            :class:`simple_capture.source.output_device.OutputDevice` or any of its subclasses.
 
     Returns:
         ffmpeg.nodes.OutputStream: Output device stream.

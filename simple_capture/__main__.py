@@ -13,6 +13,7 @@ from simple_capture.config import cli
 
 
 def main():
+    """Entry point."""
     try:
         cli.command_line_interface() # pylint:disable=no-value-for-parameter
     except Exception: # pylint:disable=broad-except
