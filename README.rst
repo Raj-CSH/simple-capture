@@ -8,12 +8,12 @@ Command line screen recorder, built using FFmpeg.
 Installation
 ~~~~~~~~~~~~
 
-Simple Capture can be installed as `simple-capture` via `pip <https://pip.pypa.io/en/stable/>`.
+Simple Capture can be installed as `simple-capture` via `pip <https://pip.pypa.io/en/stable/>`__.
 
 Documentation
 ~~~~~~~~~~~~~
 
-Documentation can be found `here <https://simple-capture.readthedocs.io/en/latest/>`__`.
+Documentation can be found `here <https://simple-capture.readthedocs.io/en/latest/>`__.
 
 Dependencies
 ~~~~~~~~~~~~~
